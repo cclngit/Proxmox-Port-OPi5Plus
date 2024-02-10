@@ -1,0 +1,103 @@
+ls
+chmod +x proxmox_install_OPi5Plus_1_1.sh 
+ls
+sudo ./proxmox_install_OPi5Plus_1_1.sh 
+pveversion --verbos
+echo 'Package: pve-edk2-firmware
+Pin: version 3.20220526-rockchip
+Pin-Priority: 999' > /etc/apt/preferences.d/pve-edk2-firmware
+exit
+ls
+cd ..
+ls
+cd var/lib/vz/template/iso/
+ls
+qm importdisk 100 Armbian_23.8.1_Uefi-arm64_bookworm_current_6.1.50.img local
+cd var/lib/vz/template/iso/
+cd var/lib/vz/template/iso
+cd ../var/lib/vz/template/iso
+qm importdisk 102 haos_generic-aarch64-11.2.img local --format qcow2
+exit
+cd ../etc/network/
+ls
+nano interfaces
+cd ../etc/network/
+nano interfaces
+ls
+nano interfaces.d
+nano interfaces.default 
+cp interfaces interfaces.old
+ls
+nano interfaces.old 
+nano interfaces
+nano interfaces
+nano interfaces.old 
+nano interfaces
+nano interfaces
+exit
+cd ../etc/network/
+nano interfaces
+exit
+cd ../etc/network/
+nano interfaces
+cd ../etc/network/
+nano interfaces
+sudo systemctl restart networking
+ping 8.8.8.8
+pi
+sudo ifconfig
+ping www
+ping www.google.com
+ping 1.1.1.1
+sudo apt update
+sudo ifconfig
+cd ../etc/network/
+nano interfaces
+nano interfaces
+exit
+apt update
+cd ../etc/network/
+nano interfaces
+reboot
+apt update
+cd ../etc/network/
+nano interfaces
+reboot
+echo "options vfio_iommu_type1 allow_unsafe_interrupts=1" > /etc/modprobe.d/iommu_unsafe_interrupts.conf
+dmesg | grep 'remapping'
+echo "options vfio_iommu_type1 allow_unsafe_interrupts=1" > /etc/modprobe.d/iommu_unsafe_interrupts.conf
+exit
+qm importdisk 101 /var/lib/vz/template/iso/Armbian_23.8.1_Uefi-arm64_bookworm_current_6.1.50.img local --format qcow2
+qm importdisk 104 /var/lib/vz/template/iso/Armbian_23.8.1_Uefi-arm64_bookworm_current_6.1.50.img local --format qcow2
+ssh@192.168.1.10
+ssh jellyfin@192.168.1.10
+cd ../etc/network/
+ls
+nano interfaces
+nano interfaces
+reboot
+cd ../etc/network/
+nano interfaces
+nano interfaces
+reboot
+cd ../etc/network/
+cp interfaces interfaces.host.wan
+cd
+wget https://fra1lxdmirror01.do.letsbuildthe.cloud/images/openwrt/23.05/arm64/default/20240111_11%3A57/rootfs.tar.xz
+pct create 106 ./rootfs.tar.xz --unprivileged I -=ostype unmanaged --hostname openwrt -=net0 name=eth0 --netl name=ethl
+pct create 106 ./rootfs.tar.xz --unprivileged 1 --ostype unmanaged --hostname openwrt --net0 name=eth0 --net1 name=eth1 --storage local 
+pct create 106 ./rootfs.tar.xz --unprivileged 1 --ostype unmanaged --hostname openwrt --net0 name=eth0 --net1 name=eth1 --storage local --arch arm64
+pct create 105 ./rootfs.tar.xz --unprivileged 1 --ostype unmanaged --hostname openwrt --net0 name=eth0 --net1 name=eth1 --storage local --arch arm64
+nano /etc/pve/lxc/105.conf 
+nano /etc/pve/lxc/105.conf 
+nano /etc/pve/lxc/105.conf 
+cd ../etc/network/
+nano interfaces.good 
+cp interfaces.good interfaces.good2
+mv interfaces.good2 interfaces
+nano interfaces
+reboot
+ls -all
+nano .bash_history 
+exit
+nano .bash_history 

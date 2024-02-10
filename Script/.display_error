@@ -1,0 +1,12 @@
+
+# If there is the following error: 
+# Guest has not initialized the display (yet) or other display related error
+# do the following:
+
+pveversion --verbos
+sudo apt download pve-edk2-firmware-aarch64=3.20220526-rockchip
+sudo dpkg -i pve-edk2-firmware-aarch64_3.20220526-rockchip_all.deb
+pveversion --verbos
+sudo echo 'Package: pve-edk2-firmware
+Pin: version 3.20220526-rockchip
+Pin-Priority: 999' > /etc/apt/preferences.d/pve-edk2-firmware

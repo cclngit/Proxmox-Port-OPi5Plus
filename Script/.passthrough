@@ -1,0 +1,44 @@
+
+
+ls -n /dev/disk/by-id/
+
+"
+total 0
+lrwxrwxrwx 1 0 0 13 Jan 11 14:51 mmc-A3A564_0x79ab42d1 -> ../../mmcblk1
+lrwxrwxrwx 1 0 0 15 Jan 11 14:51 mmc-A3A564_0x79ab42d1-part1 -> ../../mmcblk1p1
+lrwxrwxrwx 1 0 0 15 Jan 11 14:51 mmc-A3A564_0x79ab42d1-part2 -> ../../mmcblk1p2
+lrwxrwxrwx 1 0 0 13 Jan 11 14:51 nvme-eui.6479a72792903633 -> ../../nvme0n1
+lrwxrwxrwx 1 0 0 15 Jan 11 14:51 nvme-eui.6479a72792903633-part1 -> ../../nvme0n1p1
+lrwxrwxrwx 1 0 0 13 Jan 11 14:51 nvme-SPCC_M.2_PCIe_SSD_296E079A0F3700255563 -> ../../nvme0n1
+"
+
+qm set <VMID> —scsi<Nb> /dev/disk/by-id/<DiskID>
+
+# Example:  qm set 100 —scsi1 /dev/disk/by-id/nvme-SPCC_M.2_PCIe_SSD_296E079A0F3700255563
+# Note that you must pay attention to the scsi<Nb> number, it must be different for each disk.
+# if you type scsi0 while you already have a disk attached to scsi0, you will erase the previous disk.
+
+# Command to get the serial number of the disk:
+lsblk -o NAME,SIZE,MODEL,SERIAL
+
+"
+NAME           SIZE MODEL             SERIAL
+mtdblock0       16M
+mmcblk1        233G                   0x79ab42d1
+├─mmcblk1p1      1G
+└─mmcblk1p2  229.6G
+mmcblk1boot0     4M
+mmcblk1boot1     4M
+zram0          7.8G
+zram1          200M
+nvme0n1      238.5G SPCC M.2 PCIe SSD 296E079A0F3700255563
+└─nvme0n1p1  238.5G
+"
+
+# Now you need to go to the <VMID>.conf file of the VM and add the serial number of the disk.
+nano /etc/pve/qemu-server/<VMID>.conf
+
+# Add the following line:
+scsi<Nb>: /dev/disk/by-id/<DiskID>,serial=<SerialNumber>
+
+# Example: scsi1: /dev/disk/by-id/nvme-SPCC_M.2_PCIe_SSD_296E079A0F3700255563,size=238.5G,serial=296E079A0F3700255563

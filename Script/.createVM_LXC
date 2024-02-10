@@ -1,0 +1,54 @@
+# Here a command to create a VM template with a UEFI firmware without virtio disk:
+qm create <VMID> \
+  --name <VM_NAME> \
+  --agent 1 \
+  --bios ovmf \
+  --boot order=net0 \
+  --cores 4 \
+  --cpu host \
+  --efidisk0 local:100/base-100-disk-0.qcow2,efitype=4m,pre-enrolled-keys=1,size=64M \
+  --memory 4096 \
+  --net0 virtio=BC:24:11:0D:8B:DA,bridge=vmbr0,firewall=1 \
+  --numa 0 \
+  --ostype l26 \
+  --scsihw virtio-scsi-single \
+  --smbios1 uuid=fbad4733-7d8c-4ec0-bf2b-0a397cbeea6a \
+  --sockets 1 \
+  --template 1 \
+  --vcpus 4 \
+  --affinity 4,5,6,7
+
+# Than you can create a VM from this template using the following command:
+qm clone <VMID> <NEW_VMID> --name <NEW_VM_NAME>
+# or using the Proxmox GUI.
+
+# Here a command to import a UEFI ARM linux image:
+# The image most already be downloaded in /var/lib/vz/template/iso/ directory or via Proxmox GUI in <STORAGE> -> ISO Images.
+# You can download a generic Uefi Armbian image from here: https://fi.mirror.armbian.de/archive/uefi-arm64/archive/
+
+qm importdisk <NEW_VMID> /var/lib/vz/template/iso/uefi-linux-arm64.img <STORAGE> --format qcow2
+
+# After importing the image, you may need to resize the disk using the Proxmox GUI.
+# Change the boot order to boot from disk first using the Proxmox GUI.
+# Change the RAM size, CPU cores and sockets (note the you can't mix big.LITTLE cores) or all other settings as you wish using Proxmox GUI.
+# Than you can start the VM.
+
+
+
+# Here how to create LXC container:
+# Download the rootfs tarball from here: https://images.linuxcontainers.org/images/.../rootfs.tar.xz
+# You can find the image name from here: https://images.linuxcontainers.org/
+wget https://images.linuxcontainers.org/images/.../rootfs.tar.xz
+
+# Create the LXC container:
+pct create <LXC_ID> ./rootfs.tar.xz --unprivileged 1 --ostype unmanaged --hostname <LXC_NAME> --net0 name=eth0 --net1 name=eth1 --storage <STORAGE> --arch arm64
+# Note that you can't use the same network bridge for both eth0 and eth1.
+# Note that this is exemple command, you can change the LXC_ID, LXC_NAME and STORAGE as you wish.
+# and you can change the network bridge name as you wish.
+# You may need to follow the instructions for the specific image you are using.
+
+# Here the .conf file for the LXC container:
+nano /etc/pve/lxc/<LXC_ID>.conf
+
+
+
